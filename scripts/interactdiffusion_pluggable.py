@@ -261,6 +261,7 @@ class PluggableInteractDiffusion:
 
         interactdiffusion_state_dict_keys = interactdiffusion_state_dict.keys()  # try without sorted
         interactdiffusion_sorted_dict = interactdiffusion_state_dict
+
         
         for block_idx, unet_block in enumerate(itertools.chain(ori_unet.input_blocks, [ori_unet.middle_block], ori_unet.output_blocks)):
             cur_block_prefix = known_block_prefixes[block_idx]
@@ -295,7 +296,7 @@ class PluggableInteractDiffusion:
         verify_position_net_state_dict = interactdiffusion_sorted_dict
         for key, value in verify_position_net_state_dict.items():
             if not key.startswith('position_net.'):
-                raise Exception('State dict for position_net is not correct')
+                raise Exception(f'State dict for position_net is not correct. We do not support SDXL at the moment, please try to load with SD 1.x checkpoints and restart webui. The key trying to load is {key}.')
 
         # trim state_dict keys
         key_after_position_net_pointer = list(interactdiffusion_sorted_dict.keys())[0].index('position_net.') + len(

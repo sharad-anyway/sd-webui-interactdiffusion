@@ -193,7 +193,14 @@ class Script(scripts.Script):
         model_path = pathlib.Path(__file__).parent.parent / 'models' / 'ext_interactdiff_v1.2.pth'
         interactdiffusion_state_dict = torch.load(str(model_path), map_location=shared.device)
         if not shared.pluggable_ID:
-            shared.pluggable_ID = PluggableInteractDiffusion(shared.sd_model.model.diffusion_model,interactdiffusion_state_dict)
+            try:
+                shared.pluggable_ID = PluggableInteractDiffusion(shared.sd_model.model.diffusion_model,interactdiffusion_state_dict)
+            except Exception as e:
+                print('\033[91m')
+                print("[InteractDiffusion Error] Extension cannot load! Please restart webui.")
+                print(e)
+                print('\033[0m')
+        
         return
 
     def title(self):
