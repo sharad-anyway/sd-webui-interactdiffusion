@@ -247,7 +247,8 @@ def timestep_to_alpha(timestep, stage_one=0.2, stage_two=0.5, stength=1.0):
 
 
 class PluggableInteractDiffusion:
-    def __init__(self, ori_unet:UNetModel, interactdiffusion_state_dict):
+    def __init__(self, ori_unet:UNetModel, interactdiffusion_state_dict): #ori_net is an instance of the UNetModel class in ldm.modules.diffusionmodules.openaimodel
+        #interactdiffusion_state_dict is declared in scripts/scripts/interactiduffison_ui.py
         super().__init__()
         self.proxy_blocks=[]
         self.gated_self_attention_modules = []

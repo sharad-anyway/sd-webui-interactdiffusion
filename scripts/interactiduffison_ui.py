@@ -194,19 +194,21 @@ class Script(scripts.Script):
     """Inherits from scripts.Scripts"""
     def __init__(self):
         model_path = pathlib.Path(__file__).parent.parent / 'models' / 'ext_interactdiff_v1.2.pth'
-        interactdiffusion_state_dict = torch.load(str(model_path), map_location=shared.device)
-        if not shared.pluggable_ID:
-            try:
-                shared.pluggable_ID = PluggableInteractDiffusion(shared.sd_model.model.diffusion_model,interactdiffusion_state_dict) 
-            except Exception as e:
-                print('\033[91m')
-                print("[InteractDiffusion Error] Extension cannot load! Please restart webui.")
-                print(e)
-                print('\033[0m')
+        interactdiffusion_state_dict = torch.load(str(model_path), map_location=shared.device) #need to make changes, dependencies from shared
+        # if not shared.pluggable_ID:
+        #     try:
+        #         shared.pluggable_ID = PluggableInteractDiffusion(shared.sd_model.model.diffusion_model,interactdiffusion_state_dict) 
+        #     except Exception as e:
+        #         print('\033[91m')
+        #         # print("[InteractDiffusion Error] Extension cannot load! Please restart webui.")
+        #         print(e)
+        #         print('\033[0m')
+
+        plug_ID = PluggableInteractDiffusion(shared.sd_model.model.diffusion_model,interactdiffusion_state_dict) #Unet model, state_dict
         
         return
 
-    def title(self):
+    # def title(self):
         return "InteractDiffusion extension"
 
     # def show(self, is_img2img):
@@ -390,6 +392,9 @@ class Script(scripts.Script):
         # sketch_image = sketch_interaction_pad['image']
         # boxes = state['boxes']
         # height_width_arr = np.array([sketch_image.shape[1], sketch_image.shape[0], sketch_image.shape[1], sketch_image.shape[0]])
+
+
+        plug_ID = PluggableInteractDiffusion()
         grounding_texts = [y for x in grounding_texts.split(';') for y in x.strip().split("=") if y != ""]
         subject_phrases = grounding_texts[0::3]
         action_phrases = grounding_texts[1::3]
