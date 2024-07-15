@@ -1,6 +1,7 @@
 
 from train_pipeline import pipeline
 from ldm.modules.diffusionmodules.openaimodel import UNetModel
+from Diffusers import StableDiffusionPipeline
 
 if __name__ == "__main":
 
@@ -14,7 +15,12 @@ if __name__ == "__main":
     strength = 0.8
     
     # trained_model = pipe.train_dreambooth()
+     #Need to comnbine scripts from 
 
     trained_model = UNetModel
 
     pipe.process(boxes,grounding_texts,enabled,stage_one,stage_two,strength,trained_model)
+
+    txt2img = StableDiffusionPipeline.from_pretrained()
+
+    unet = 

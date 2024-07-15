@@ -164,7 +164,7 @@ class pipeline():
             action_phrases=action_phrases
         )], p)
 
-        return  #updates the UNet model with the pluggable modules, params and tensors. UNet can be used for downstream tasks in our case generating.
+        return  self.plug_ID
 
 
     def postprocess(self, *args):
